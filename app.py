@@ -5,7 +5,7 @@ from time import time
 
 app = Flask(__name__)
 eng = matlab.engine.start_matlab()
-eng.addpath(eng.genpath('/Users/brandonescamilla/BrandonEscamilla/GSoC/AerospaceResearch/MOLTO-IT')) #Directory from server
+eng.addpath(eng.genpath('/Users/brandonescamilla/BrandonEscamilla/GSoC/AerospaceResearch/MOLTO-IT/API')) #Directory from server
 print("Initialized Matlab in server!")
 @app.route('/', methods=['GET','POST'])
 def index():
