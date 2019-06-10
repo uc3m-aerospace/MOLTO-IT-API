@@ -35,6 +35,7 @@ def sum():
         string = str(sum)
         tiempo_ejecucion = tiempo_final - tiempo_inicial
         print("El tiempo de ejecución fue:", tiempo_ejecucion)
+        
         return string
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
