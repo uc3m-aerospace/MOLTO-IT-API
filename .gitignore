@@ -1,3 +1,4 @@
+*.jpeg
 *.txt
 __pycache__/
 apienv/
