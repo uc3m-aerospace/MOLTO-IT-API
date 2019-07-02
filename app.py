@@ -1,11 +1,15 @@
 #!flask/bin/python
 from flask import Flask, request, send_file
+import json
 import matlab.engine
 from time import time 
 
 app = Flask(__name__)
 eng = matlab.engine.start_matlab()
-eng.addpath(eng.genpath('/Users/brandonescamilla/BrandonEscamilla/GSoC/AerospaceResearch/MOLTO-IT/API')) #Directory from server
+
+eng.addpath(eng.genpath('~/MOLTO-IT-API')) #Directory from server
+eng.addpath(eng.genpath('~/MOLTO-IT'))
+
 print("Initialized Matlab in server!")
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -81,6 +85,38 @@ def optimization_mission():
         tiempo_ejecucion = tiempo_final - tiempo_inicial
         print("El tiempo de ejecucion fue:", tiempo_ejecucion)
         return get_image()
+
+    elif request.method == 'GET':
+        eng = matlab.engine.start_matlab()
+        return "Motor Inicializado."
+ 
+
+
+        
+@app.route('/optimization/mission/json', methods=['GET', 'POST'])
+def optimization_mission_json():
+    global eng
+    if request.method == 'POST':
+        tiempo_inicial = time() 
+        
+        data = request.get_json()
+        print(data)
+        
+        with open('example.json', 'w') as json_file:  
+            json.dump(data, json_file)
+        name = open('example.json', 'r').read()
+        eng.molto_it_json(name)
+
+        
+        tiempo_final = time() 
+        
+        eng.quit()
+        
+        tiempo_ejecucion = tiempo_final - tiempo_inicial
+        
+        print("El tiempo de ejecucion fue:", tiempo_ejecucion)
+        
+        return get_image('Ceres.txt')
 
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
