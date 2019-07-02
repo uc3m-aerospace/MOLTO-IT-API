@@ -1,11 +1,15 @@
 #!flask/bin/python
+from flask_cors import CORS
 from flask import Flask, request, send_file
 import matlab.engine
 from time import time 
 
 app = Flask(__name__)
 eng = matlab.engine.start_matlab()
-eng.addpath(eng.genpath('/Users/brandonescamilla/BrandonEscamilla/GSoC/AerospaceResearch/MOLTO-IT/API')) #Directory from server
+
+eng.addpath(eng.genpath('~/MOLTO-IT-API')) #Directory from server
+eng.addpath(eng.genpath('~/MOLTO-IT'))
+
 print("Initialized Matlab in server!")
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -94,8 +98,9 @@ def test():
 
 @app.route('/get_image')
 def get_image():
-    filename = 'Jupiter.txt'
-    return send_file(filename, attachment_filename='Jupiter.txt')
+    filename = 'Ceres.txt'
+    return send_file(filename, attachment_filename='Ceres.txt')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+     app.run(host="0.0.0.0")
