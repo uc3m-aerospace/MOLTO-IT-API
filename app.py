@@ -1,4 +1,5 @@
 #!flask/bin/python
+from flask_cors import CORS
 from flask import Flask, request, send_file
 import json
 import matlab.engine
@@ -84,7 +85,7 @@ def optimization_mission():
         eng.quit()
         tiempo_ejecucion = tiempo_final - tiempo_inicial
         print("El tiempo de ejecucion fue:", tiempo_ejecucion)
-        return get_image()
+        return get_file(Ceres.txt)
 
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
@@ -129,8 +130,9 @@ def test():
     return eng.figure(nargout=0)        
 
 @app.route('/get_file/<file_name>')
-def get_image(file_name):
+def get_file(file_name):
     return send_file(file_name, attachment_filename=file_name)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+     app.run(host="0.0.0.0")
