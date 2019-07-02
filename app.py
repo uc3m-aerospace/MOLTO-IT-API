@@ -129,10 +129,14 @@ def test():
     global eng
     return eng.figure(nargout=0)        
 
-@app.route('/get_file/<file_name>')
+@app.route('/get_file/<file_name>', methods=['GET', 'POST'])
 def get_file(file_name):
-    return send_file(file_name, attachment_filename=file_name)
-
+    if request.method == 'POST':
+        data = request.get_json()
+        return send_file(data[path], attachment_filename=file_name)
+    elif request.method == 'GET':
+        return send_file(file_name, attachment_filename=file_name)
+        
 if __name__ == '__main__':
 
      app.run(host="0.0.0.0")
