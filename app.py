@@ -117,7 +117,7 @@ def optimization_mission_json():
         
         print("El tiempo de ejecucion fue:", tiempo_ejecucion)
         
-        return get_image('Ceres.txt')
+        return get_file('Ceres.txt')
 
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
