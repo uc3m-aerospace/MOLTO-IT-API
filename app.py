@@ -96,10 +96,9 @@ def test():
     global eng
     return eng.figure(nargout=0)        
 
-@app.route('/get_image')
-def get_image():
-    filename = 'Ceres.txt'
-    return send_file(filename, attachment_filename='Ceres.txt')
+@app.route('/get_file/<file_name>')
+def get_image(file_name):
+    return send_file(file_name, attachment_filename=file_name)
 
 if __name__ == '__main__':
 
