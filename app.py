@@ -126,7 +126,6 @@ def get_file(file_name):
     if request.method == 'POST':
        data = request.get_json()
        return send_file(data[path], attachment_filename=file_name)
-
     elif request.method == 'GET':
         return send_file(file_name, attachment_filename=file_name)
 
