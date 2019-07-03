@@ -98,45 +98,38 @@ def optimization_mission():
 def optimization_mission_json():
     global eng
     if request.method == 'POST':
-        tiempo_inicial = time() 
-        
+        tiempo_inicial = time()
         data = request.get_json()
         print(data)
-        
-        with open('example.json', 'w') as json_file:  
+        with open('example.json', 'w') as json_file:
             json.dump(data, json_file)
+
         name = open('example.json', 'r').read()
         eng.molto_it_json(name)
-
-        
-        tiempo_final = time() 
-        
+        tiempo_final = time()
         eng.quit()
-        
         tiempo_ejecucion = tiempo_final - tiempo_inicial
-        
         print("El tiempo de ejecucion fue:", tiempo_ejecucion)
-        
         return get_file('~/tmp/Ceres/Results_extended.txt')
 
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
         return "Motor Inicializado."
- 
 
 @app.route('/test', methods=['GET'])
 def test():
     global eng
-    return eng.figure(nargout=0)        
+    return eng.figure(nargout=0)
 
 @app.route('/get_file/<file_name>', methods=['GET', 'POST'])
 def get_file(file_name):
     if request.method == 'POST':
-        data = request.get_json()
-        return send_file(data[path], attachment_filename=file_name)
+       data = request.get_json()
+       return send_file(data[path], attachment_filename=file_name)
+
     elif request.method == 'GET':
         return send_file(file_name, attachment_filename=file_name)
-        
+
 if __name__ == '__main__':
 
      app.run(host="0.0.0.0")
