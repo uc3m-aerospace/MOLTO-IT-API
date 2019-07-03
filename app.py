@@ -110,18 +110,17 @@ def optimization_mission_json():
         eng = matlab.engine.start_matlab()
         return "Motor Inicializado."
 
-
 @app.route('/test', methods=['GET'])
 def test():
     global eng
     return eng.figure(nargout=0)
+
 Â
 @app.route('/get_file/<file_name>', methods=['GET', 'POST'])
 def get_file(file_name):
     if request.method == 'POST':
     ÃÂ»data = request.get_json()
-     Â±return send_file(data[path], attachment_filename=file_name)
-
+     Â±return send_file(data[path], attachment_filename=file_name
     elif request.method == 'GET':
         return send_file(file_name, attachment_filename=file_name)
 
