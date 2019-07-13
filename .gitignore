@@ -5,3 +5,4 @@ apienv/
 app.py~
 *.m
 wsgi.py
+*.json
