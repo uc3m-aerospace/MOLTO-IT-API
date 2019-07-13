@@ -138,7 +138,8 @@ def get_file(file_name):
        print(static_file_dir)
        print(file_name)
        data = request.get_json()
-       for file_name in static_file_dir: 
+
+       for filename in os.listdir(static_file_dir):
             print(file_name)
             return send_from_directory(static_file_dir, file_name)
         
