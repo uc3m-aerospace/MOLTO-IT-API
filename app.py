@@ -104,6 +104,7 @@ def optimization_mission():
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
         return "Motor Inicializado."
+
 @app.route('/optimization/mission/json', methods=['GET', 'POST'])
 def optimization_mission_json():
     global eng
@@ -137,7 +138,10 @@ def get_file(file_name):
        print(static_file_dir)
        print(file_name)
        data = request.get_json()
-       return send_from_directory(static_file_dir, file_name)
+       for file_name in static_file_dir: 
+            print(file_name)
+            return send_from_directory(static_file_dir, file_name)
+        
     elif request.method == 'GET':
         return send_file(file_name, attachment_filename=file_name)
 
@@ -159,6 +163,7 @@ def get_sliders():
       sheet = client.open('Slider').sheet1
       data = sheet.get_all_records()
       return json.dumps(data)
+
 
 if __name__ == '__main__':
 
