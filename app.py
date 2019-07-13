@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask import Flask, request, send_file
 import json
+import os
 import matlab.engine
 from time import time 
 
@@ -10,14 +11,18 @@ eng = matlab.engine.start_matlab()
 
 eng.addpath(eng.genpath('~/MOLTO-IT-API')) #Directory from server
 eng.addpath(eng.genpath('~/MOLTO-IT'))
+static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)))
 
 print("Initialized Matlab in server!")
 @app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
+        
+        
         return "Hello, World!"
     elif request.method == 'GET':
-        return "Matlab is Running"
+        print("a")
+        return static_file_dir
 
 @app.route('/init', methods=['GET','POST'])
 def init():
@@ -90,9 +95,6 @@ def optimization_mission():
     elif request.method == 'GET':
         eng = matlab.engine.start_matlab()
         return "Motor Inicializado."
- 
-
-
         
 @app.route('/optimization/mission/json', methods=['GET', 'POST'])
 def optimization_mission_json():
