@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask_cors import CORS, cross_origin
 from flask import Flask, request, send_file, send_from_directory
+from flask_socketio import SocketIO, emit, join_room, send
 import json
 import os
 import matlab.engine
@@ -18,7 +19,9 @@ client = gspread.authorize(creds)
 
 app = Flask(__name__)
 eng = matlab.engine.start_matlab()
-cors = CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
+socket = SocketIO(app,async_mode='eventlet')
+CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
+
 
 eng.addpath(eng.genpath('~/MOLTO-IT-API')) #Directory from server
 eng.addpath(eng.genpath('~/MOLTO-IT'))
@@ -27,13 +30,25 @@ static_file_dir = os.path.expanduser('~/tmp/Ceres') #Directory from static file 
 print("Initialized Matlab in server!")
 @app.route('/', methods=['GET','POST'])
 def index():
-    if request.method == 'POST':
-        
-        
+    if request.method == 'POST':      
         return "Hello, World!"
     elif request.method == 'GET':
         print("a")
-        return static_file_dir
+        return 'Hola Mundo'
+
+@socket.on('connection')
+def on_connect():
+    print('User connected!')
+    send('after connect', {'data': 'Connected'})
+
+def on_disconnect():
+    print('user disconnected')
+
+@socket.on('my event')
+def handle_my_custom_event(json):
+    print("Entro aqui")
+    print('received json: ' + str(json))
+
 
 @app.route('/init', methods=['GET','POST'])
 def init():
@@ -138,10 +153,11 @@ def get_file(file_name):
        print(static_file_dir)
        print(file_name)
        data = request.get_json()
+       return socket.emit('ping event', {'data': 42}, namespace='/chat')
 
-       for file_name in os.listdir(static_file_dir):
-            print(file_name)
-            return send_from_directory(static_file_dir, file_name)
+       #for file_name in os.listdir(static_file_dir):
+       #     print(file_name)
+       #     return send_from_directory(static_file_dir, file_name)
         
     elif request.method == 'GET':
         return send_file(file_name, attachment_filename=file_name)
@@ -167,5 +183,4 @@ def get_sliders():
 
 
 if __name__ == '__main__':
-
-     app.run(host="0.0.0.0")
+    socket.run(app, host="0.0.0.0")
