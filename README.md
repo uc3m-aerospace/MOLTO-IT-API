@@ -31,14 +31,10 @@ Say what the step will be
 1.- Create a virtual environement
 2.- Enter virtual environment
 3.- pip install requirements.txt
-4.- gunicorn app.py
+4.- sh run-redis.sh
+5.- gunicorn app.py
 ```
 
-And repeat
-
-```
-until finished
-```
 ## Deployment
 
 For deployment purposes contact brandon.escamilla@aerospaceresearch.net
