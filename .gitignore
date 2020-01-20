@@ -1,6 +1,7 @@
 *.jpeg
 *.txt
 *.pem
+*.db
 __pycache__/
 apienv/
 app.py~
