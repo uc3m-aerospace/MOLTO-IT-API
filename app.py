@@ -85,7 +85,7 @@ socket = SocketIO(app)
 '''
     Global Variables
 '''
-static_file_dir = os.path.expanduser('~mrd/tmp/Ceres')  # Directory from static file Generations pareto front
+static_file_dir = os.path.expanduser('~mrd/tmp/first')  # Directory from static file Generations pareto front
 static_home_dir = os.path.expanduser('~mrd/Documents/MOLTO-IT-MATLAB')
 gettime = time.time()
 
@@ -204,11 +204,13 @@ def index():
 @cross_origin(origin='localhost', headers=['Content- Type', 'Authorization'])
 def optimization_mission_json():
     global eng
+    import flower
     if request.method == 'POST':
         data = request.get_json()
         print(data)
         # maxGen = data['maxGen']
         task = callGeneticAlgorithm.apply_async(args=[data], countdown=5)
+        print(task)
         if data['plot'] > 0:
             static_file_dir = os.path.expanduser('~mrd/tmp/' + data['problem_name'] + '/Trajectory' + str(
                 data['plot']) + '.png')  # Directory from static file Generations pareto front

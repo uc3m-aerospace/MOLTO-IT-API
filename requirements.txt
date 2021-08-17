@@ -9,6 +9,7 @@ Flask-Jwt-Extended
 Flask-RESTful==0.3.7
 Flask-SocketIO
 Flask-SQLAlchemy
+flower
 gspread
 isort==4.3.17
 itsdangerous==1.1.0
