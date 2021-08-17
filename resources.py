@@ -101,7 +101,7 @@ class AllUsers(Resource):
 
 class SecretResource(Resource):
     @cross_origin()
-    @jwt_required
+    @jwt_required()
     def get(self):
         return {
             'answer': 42
